@@ -1,0 +1,33 @@
+.swal-title {
+	font-size: 24px;
+}
+.swal-text {
+	text-align: center;color: inherit;
+}
+.swal-button {
+	background-color: #1D7FEF;border:solid 2px #1D7FEF;padding: 5px 24px;
+}
+.swal-button:focus {
+	box-shadow: none;
+}
+.swal-button:active {
+	background-color: #1D7FEF;
+}
+.swal-footer {
+	text-align: center;padding-bottom: 24px;
+}
+.swal-button--yes {
+	background-color: #1D7FEF;color: #fff;
+}
+.swal-button--no {
+	background-color: #fff;color: #1D7FEF;
+}
+.swal-button--no:hover {
+	background-color: #1D7FEF;color: #fff;
+}
+.swal-icon--warning {
+	border-color: #1D7FEF;animation:none;
+}
+.swal-icon--warning__body, .swal-icon--warning__dot {
+	background-color: #1D7FEF;
+}

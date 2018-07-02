@@ -1,0 +1,58 @@
+<%= require('html-loader!../common/head.html') %>
+<div id="vueApp_buy" v-cloak>
+	<%= require('html-loader!../common/header.html') %>
+
+	<div class="py-5 text-white" style="background: url(../images/bg2.jpg) center no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-3">
+					<h1 class="h2 font-weight-bold">Upgrade</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="py-5">
+		<div class="container pb-5">
+			<div class="row no-gutters">
+				<div class="col-lg-2 d-none d-lg-block">
+					<%= require('html-loader!../common/menu.html') %>
+				</div>
+				<div class="col-lg-10 pl-lg-4 text-center font-weight-bold">
+					<div class="row">
+						<div class="col-lg-4 py-3" v-for="item in sku_list_upgrade">
+							<div class="py-5 px-4 h-100 position-relative" v-bind:class="{'border-primary':item.id==3}" style="border:5px solid #EDEDED;">
+								<div class="save" v-if="item.oldPrice != item.nowPrice">Save<br/>{{parseInt((item.oldPrice-item.nowPrice)/item.oldPrice*100)}}%</div>
+								<div class="text-danger">
+									<span class="h2">$</span><span class="h1">{{(item.nowPrice/item.productCount).toFixed(2)}}</span> <del class="text-gray9" v-if="item.oldPrice != item.nowPrice">{{'$'+(item.oldPrice/item.productCount).toFixed(2)}}</del>
+								</div>
+								<p>/ month</p>
+								<p>{{item.productCount}}-Month License {{'$'+item.nowPrice}}</p>
+								<form class="mb-4" v-if="item" action="https://www.bitcoinalert.io/api/work/coin/payment/pay">
+									<input type="hidden" v-model="item.id">
+									<button type="submit" class="btn btn-lg w-100 btn-danger text-white">Buy Now</button>
+								</form>
+								<ul class="list text-left small px-lg-4 text-nowrap">
+									<li>Unlimited Active Alerts <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="You can set unlimited alerts"></a></li>
+									<li>Price point <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Example: Alert me if BTC_USD's buy price increases to $8000 on Coinbase."></a></li>
+									<li>Percent Change <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Example: Alert me if BTC_USD's buy price increases by 15% within 5 minutes on Coinbase."></a></li>
+									<li>Regular Updates <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Example: Send me the BTC_USD buy price on Coinbase every 6 hours."></a></li>
+									<li>Telegram <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Send me the alert via Telegram notification"></a></li>
+									<li>Email <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Send me the alert via Email notification"></a></li>
+									<li>SMS <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Send me the alert via SMS notification"></a></li>
+									<li>Push <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Send me the alert via real-time push notification on your Android, iOS, & desktop device."></a></li>
+									<li>11,000+ Cryptocurrencies <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Monitoring the price and its changes of  over 11,000 cryptocurrencies"></a></li>
+									<li>30+ Markets <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Monitoring  over 30+  mainstream exchanges"></a></li>
+									<li>24/7 support <a href="javascript:;" class="faq-ion" data-toggle="tooltip" data-placement="right" title="Provide 24/7 free support."></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%= require('html-loader!../common/footer.html') %>
+</body>
+</html>

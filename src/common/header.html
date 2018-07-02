@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container">
+		<a class="navbar-brand" href="/"><img src="../images/logo.png" alt="Bitcoin Alert Logo"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a href="/buy/buy.html" class="nav-link">Pricing</a>
+				</li>
+				<li class="nav-item">
+					<a href="/markets.html" class="nav-link">Markets</a>
+				</li>
+			</ul>
+			<ul v-if="logged" class="navbar-nav">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle no-hover" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:;">Alerts Settings</a>
+					<div class="dropdown-menu small" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="/alert-settings/price-point.html">Price Point Alert</a>
+						<a class="dropdown-item" href="/alert-settings/percentage-change.html">Percentage Change</a>
+						<a class="dropdown-item" href="/alert-settings/coin-daily-update.html">Regular Update</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle no-hover" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:;">Add Alert</a>
+					<div class="dropdown-menu small" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="/add-alert/price-point.html">Price Point Alert</a>
+						<a class="dropdown-item" href="/add-alert/percentage-change.html">Percentage Change</a>
+						<a class="dropdown-item" href="/add-alert/coin-daily-update.html">Regular Update</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle no-hover" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="javascript:;" v-text="userName"></a>
+					<div class="dropdown-menu small" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="/user/account.html">Account</a>
+						<a class="dropdown-item" href="/user/channel.html">Channel</a>
+						<a class="dropdown-item" href="/buy/upgrade.html">Upgrade</a>
+						<a class="dropdown-item" href="/user/modify-password.html">Modify Password</a>
+						<a class="dropdown-item" href="javascript:;" v-on:click="logout()">Sign out</a>
+					</div>
+				</li>
+			</ul>
+			<ul v-else class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/user/login.html">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="btn btn-primary btn-sm text-white" href="user/signup.html">Sign up free</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

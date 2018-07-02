@@ -1,0 +1,36 @@
+<%= require('html-loader!./common/head.html') %>
+<%= require('html-loader!./common/header2.html') %>
+	<div id="vueApp_form">
+		<div class="modal fade" id="Modal-valid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body px-5 pb-5">
+						<form id="form-resetPassword" action="https://www.bitcoinalert.io/api/portal/coin/user/resetpwd">
+							<div class="mb-4 text-center">
+								<h4 class="text-center mb-4">Reset Password</h4>
+								<p v-if="fail_text" class="mb-0 text-danger">{{fail_text}}</p>
+							</div>
+							<div class="form-group">
+								<label>Email address</label>
+								<input type="email" name="userName" class="form-control" placeholder="Enter email">
+							</div>
+							<div class="form-group">
+								<label>Password</label>
+								<input type="password" data-name="passWord" class="form-control" placeholder="Password">
+								<input type="hidden" name="newPassWord" data-name="hex_passWord">
+							</div>
+							<input type="hidden" v-model="emailId" name="emailId">
+							<input type="hidden" v-model="emailCode" name="emailCode">
+							<input type="hidden" v-model="emailType" name="emailType">
+							<div class="text-center pt-3">
+								<a class="btn btn-primary text-white" v-bind:class="{'disabled':submitting}" href="javascript:;" v-on:click="checkSubmit('#form-resetPassword')">Submit</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<%= require('html-loader!./common/footer.html') %>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<%= require('html-loader!./common/head.html') %>
+<div id="vueApp_detail" v-cloak>
+	<%= require('html-loader!./common/header.html') %>
+	<div class="py-5 text-center">
+		<h1 class="text-primary mb-4">SUPPORTED MARKETS</h1>
+		<div id="marketList">
+			<button v-for="(item,index) in marketList" class="btn mx-2 my-2" v-bind:class="(marketChecked&&marketChecked.id == item.id) ? 'btn-primary' : 'btn-info'" v-on:click="marketChecked = item">{{item.name}}</button>
+		</div>
+	</div>
+	<div v-if="marketList.length != 0" class="text-center">
+		<div class="bg-info py-4">
+			<h4 v-text="marketChecked ? marketChecked.name : marketList[0].name"></h4>
+		</div>
+		<div class="row py-4 no-gutters">
+			<div v-for="(item,index) in currencyList" class="col-2" v-bind:class="{'bg-grayf6' : (parseInt(index/6)+1)%2==0}"><div class="py-4 px-4">{{item.coinOne+'_'+item.coinTwo}}</div></div>
+		</div>
+	</div>
+</div>
+
+<%= require('html-loader!./common/footer.html') %>
+
+
+</body>
+</html>

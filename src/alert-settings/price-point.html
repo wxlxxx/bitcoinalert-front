@@ -1,0 +1,99 @@
+<%= require('html-loader!../common/head.html') %>
+<div id="vueApp_list" v-cloak>
+	<%= require('html-loader!../common/header.html') %>
+	<div class="py-5 text-white" style="background: url(../images/bg2.jpg) center no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-3">
+					<h1 class="h2">Alerts Settings / Price Point</h1>
+					<h6 class="mb-4">Example: "Alert me if BTC_USD's buy price increases to $8000 on Coinbase."</h6>
+					<a href="/add-alert/price-point.html" class="btn btn-light text-primary font-weight-bold">ADD ALERT</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="py-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 pr-4 d-none d-lg-block">
+					<%= require('html-loader!../common/menu.html') %>
+				</div>
+				<div class="col-lg-8">
+					<div v-if="alertItems.length ==0" class="border-left border-primary bg-grayf6 py-3 px-4 rounded-right mb-4" style="border-width: 15px !important;">
+						<div class="row align-items-center">
+							<div class="col-lg-7">
+								<h5>Coinbase - BTC_USD <span class="text-primary">(Demo)</span></h5>
+								<p class="small mb-0">Alert me if BTC_USD's buy price increases to $8000 on Coinbase.</p>
+								<p class="mb-0 small-xs text-gray9">
+									<span class="mr-4">Reminder: 10/10</span>
+									<span>Channel: Email,SMS</span>
+								</p>
+							</div>
+							<div class="col-lg-3 col-9 py-2 py-lg-0">
+								<div class="d-flex justify-content-around">
+									<a href="/add-alert/price-point.html" class="px-2">
+										<div class="icon-edit"></div>
+										<p class="small-xs mb-0">Edit</p>
+									</a>
+									<a class="px-2" href="/add-alert/price-point.html">
+										<div class="icon-copy"></div>
+										<p class="small-xs mb-0">Copy</p>
+									</a>
+									<a href="/add-alert/price-point.html" class="px-2">
+										<div class="icon-delete"></div>
+										<p class="small-xs mb-0">Delete</p>
+									</a>
+								</div>
+							</div>
+							<div class="col-lg-2 col-3">
+								<a href="/add-alert/price-point.html"><div class="switch ml-auto switch-on"></div></a>
+							</div>
+						</div>
+					</div>
+
+					<div v-for="item in alertItems" v-if="item.alertType == 'PRICE'" class="border-left border-primary bg-grayf6 py-3 px-4 rounded-right mb-4" style="border-width: 15px !important;">
+						<div class="row align-items-center">
+							<div class="col-lg-7">
+								<h5>{{item.marketName + '-' + item.currencyCoinOne + '_' + item.currencyCoinTwo}}</h5>
+								<p class="small mb-0">Alert me when the {{item.alertKey | alertKey_f}} is {{item.alertCondition | alertCondition_f }} {{'$'+item.alertValue}}</p>
+								<p class="mb-0 small-xs text-gray9">
+									<span class="mr-4">Reminder: {{item.remainingAlertTimes+'/'+item.alertTimes}}</span>
+									<span>Channel: {{item.alertMethod}}</span>
+								</p>
+							</div>
+							<div class="col-lg-3 col-9 py-2 py-lg-0">
+								<div class="d-flex justify-content-around">
+									<a v-bind:href="'/add-alert/price-point.html?type=edit&alertId='+item.id" class="px-2">
+										<div class="icon-edit"></div>
+										<p class="small-xs mb-0">Edit</p>
+									</a>
+									<a class="px-2" href="javascript:;" v-on:click="alert_copy(item)">
+										<div class="icon-copy"></div>
+										<p class="small-xs mb-0">Copy</p>
+									</a>
+									<a v-on:click="alert_delete(item.id)" href="javascript:;" class="px-2">
+										<div class="icon-delete"></div>
+										<p class="small-xs mb-0">Delete</p>
+									</a>
+								</div>
+							</div>
+							<div class="col-lg-2 col-3">
+								<div v-on:click="alert_switch(item)" class="switch ml-auto" v-bind:class="item.status == 1 ? 'switch-on' : 'switch-off'"></div>
+							</div>
+						</div>
+					</div>
+					<div class="item-page" v-if="totalPageNum>0">
+				        <span class="cursor-pointer" v-on:click="currPage>1 ? changePage(currPage-1) : ''" v-bind:class="currPage>1 ? 'text-primary' : 'disabled'">Prev</span>
+				        <span class="mx-2 cursor-pointer" v-on:click="changePage(1)" v-bind:class="{'text-primary disabled':currPage == 1}">1</span>
+				        <span class="mx-2" v-if="currPage-showPageHalfNum>=3">...</span>
+				        <span class="mx-2 cursor-pointer" v-if="item>=2&&item<=totalPageNum-1" v-for="item in showPage" v-on:click="changePage(item)" v-bind:class="{'text-primary disabled':item == currPage}">{{item}}</span>
+				        <span class="mx-2" v-if="currPage+showPageHalfNum<=totalPageNum-2">...</span>
+				        <span class="mx-2 cursor-pointer" v-on:click="changePage(totalPageNum)" v-bind:class="{'text-primary disabled':currPage == totalPageNum}" v-if="totalPageNum>=2">{{totalPageNum}}</span>
+				        <span class="cursor-pointer" v-on:click="currPage<totalPageNum ? changePage(currPage+1) : ''" v-bind:class="currPage<totalPageNum ? 'text-primary' : 'disabled'">Next</span>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%= require('html-loader!../common/footer.html') %>

@@ -1,0 +1,109 @@
+<%= require('html-loader!../common/head.html') %>
+<div id="vueApp_account" v-cloak>
+	<%= require('html-loader!../common/header.html') %>
+
+	<div class="py-5 text-white" style="background: url(../images/bg2.jpg) center no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-3">
+					<h1 class="h2">Account</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="py-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 pr-4 d-none d-lg-block">
+					<%= require('html-loader!../common/menu.html') %>
+				</div>
+				<div class="col-lg-8 alert-detail">
+					<div id="account-menu" class="row no-gutters text-center h5 mb-0 font-weight-bold">
+						<div class="col-lg-3 pr-1"><a href="javascript:;" data-toggle="customCollapse" data-target="#customCollapse1" class="d-inline-block bg-grayf6 w-100 py-3 no-hover" v-bind:class="{'active':step == 1}">Account</a></div>
+						<div class="col-lg-3 pr-1"><a href="javascript:;" data-toggle="customCollapse" data-target="#customCollapse2" class="d-inline-block bg-grayf6 w-100 py-3 no-hover" v-bind:class="{'active':step == 2}">SMS Credit</a></div>
+						<div class="col-lg-3 pr-1"><a href="javascript:;" data-toggle="customCollapse" data-target="#customCollapse3" class="d-inline-block bg-grayf6 w-100 py-3 no-hover" v-bind:class="{'active':step == 3}">Billing</a></div>
+					</div>
+					<div id="customCollapse1" class="customCollapse" v-bind:class="{'show':step == 1}">
+						<div class="py-3 pb-5 px-4 box-shadow mb-5">
+							<h4 class="font-weight-bold mb-4">{{userName}}</h4>
+							<div class="row justify-content-between">
+								<div class="col-lg-6">
+									<p>Account Type: <span class="text-primary">{{vip ? 'pro' : 'free'}}</span></p>
+									<p v-if="vip">Expiration Date: <span class="text-primary">{{userInfo.vipEndTime}}</span></p>
+									<p>Last login: {{userInfo.lastLoginTime}}</p>
+								</div>
+								<div class="col-lg-5 text-right">
+									<p>Prolongation:</p>
+									<div class="dropdown text-gray9 mb-4">
+										<a class="btn btn-outline-grayd3 dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="curr_sku_pro.productCount+' months - $'+curr_sku_pro.nowPrice+' (save'+parseInt((curr_sku_pro.oldPrice-curr_sku_pro.nowPrice)/curr_sku_pro.oldPrice*100)+'%)'">
+										</a>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+											<a v-for="item in sku_list_pro" class="dropdown-item" href="javascript:;" v-on:click="curr_sku_pro = item" v-text="item.productCount+' months - $'+item.nowPrice+' (save'+parseInt((item.oldPrice-item.nowPrice)/item.oldPrice*100)+'%)'">
+											</a>
+										</div>
+									</div>
+									<form action="https://www.bitcoinalert.io/api/work/coin/payment/pay">
+										<input type="hidden" v-model="curr_sku_pro.id" name="skuId">
+										<button type="submit" class="btn btn-lg btn-danger font-weight-bold text-white" v-text="vip ? 'Renew Subscription' : 'Buy It Now'"></button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="box-shadow py-3 px-4">
+							<h4 class="font-weight-bold mb-3">Account details</h4>
+							<div class="row justify-content-between">
+								<div class="col-lg-6">
+									<p>
+										Active Channels: 
+										<span v-if="userInfo" v-for="item in userInfo.channelInfo.channels" class="d-inline-block border px-2 ml-1">{{item.method}}</span>
+									</p>
+									<p>Notification count: {{userInfo.activityCount}}</p>
+								</div>
+								<div class="col-lg-5">
+									<p>SMS Credits: {{userInfo.smsCredits}}</p>
+									<p>Alert count: {{userInfo.alertCount}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="customCollapse2" class="customCollapse" v-bind:class="{'show':step == 2}">
+						<div class="py-3 px-4 box-shadow mb-5">
+							<h4 class="font-weight-bold mb-4">SMS Credits</h4>
+							<p class="mb-4">SMS Credits allow Coindera to send text messages to your mobile phone. We require 1 credit per 1 SMS. They can be purchased in packs of 100 credits for $2.00 USD. We support every country available through Twilio (221 countries). All text messages will come from a United States California San Francisco based number.</p>
+							<form action="https://www.bitcoinalert.io/api/work/coin/payment/pay">
+								<input type="hidden" v-model="curr_sku_sms.id" name="skuId">
+								<button type="submit" class="btn btn-lg btn-danger font-weight-bold text-white">Buy Cedits</button>
+							</form>
+						</div>
+					</div>
+					<div id="customCollapse3" class="customCollapse" v-bind:class="{'show':step == 3}">
+						<div class="py-3 px-4 box-shadow mb-5">
+							<h4 class="font-weight-bold mb-4">Billing History</h4>
+							<table class="table w-100 mb-4">
+								<tr class="font-weight-bold">
+									<td>No.</td>
+									<td>Transaction Date</td>
+									<td>Plan</td>
+									<td>Subscription</td>
+									<td>Fees (USD)</td>
+								</tr>
+								<tr v-for="(item,index) in billing">
+									<td>{{index+1}}</td>
+									<td>{{item.payTime}}</td>
+									<td>{{item.skuInfo.productName}}</td>
+									<td>{{item.skuInfo.descript}}</td>
+									<td>{{'$'+item.amount}}</td>
+								</tr>
+							</table>
+							<a href="/buy/upgrade.html" class="btn btn-lg btn-danger font-weight-bold text-white" v-text="vip ? 'Renew Subscription' : 'Buy It Now'"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%= require('html-loader!../common/footer.html') %>
+</body>
+</html>

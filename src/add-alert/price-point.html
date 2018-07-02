@@ -1,0 +1,109 @@
+<%= require('html-loader!../common/head.html') %>
+<%= require('html-loader!../common/header.html') %>
+<div class="py-5 text-white" style="background: url(../images/bg2.jpg) center no-repeat;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 offset-lg-3">
+				<h1 class="h2">Add Alert / Price Point</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="py-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 pr-4 d-none d-lg-block">
+				<%= require('html-loader!../common/menu.html') %>
+			</div>
+			<div class="col-lg-8 alert-detail" id="vueApp_detail" v-cloak>
+				<div class="row mb-4">
+					<div class="col-lg-4">
+						<h5 class="font-weight-bold">Exchange</h5>
+						<div class="dropdown text-gray9">
+						  <a class="btn btn-outline-grayd3 dropdown-toggle text-primary" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:class="{'border-danger':marketChecked_error}">
+						    <span class="text-secondary" v-text="marketChecked ? marketChecked.name : 'Select One'"></span>
+						  </a>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						    <a v-for="item in marketList" class="dropdown-item" href="javascript:;" v-on:click="marketChecked = item" v-text="item.name"></a>
+						  </div>
+						</div>
+					</div>
+					<div class="col-lg-4 offset-lg-2">
+						<h5 class="font-weight-bold">Currency</h5>
+						<div class="dropdown text-gray9">
+						  <a class="btn btn-outline-grayd3 dropdown-toggle text-primary" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:class="{'border-danger':currencyChecked_error}">
+						    <span class="text-secondary" v-text="currencyChecked ? currencyChecked.coinOne+'_'+currencyChecked.coinTwo : 'Currency'"></span>
+						  </a>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+						    <a v-for="item in currencyList" class="dropdown-item" href="javascript:;" v-on:click="currencyChecked = item" v-text="item.coinOne+'_'+item.coinTwo"></a>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<h5 class="font-weight-bold">Alert me when <span v-if="currencyChecked" class="text-primary" v-text="currencyChecked.coinOne+'_'+currencyChecked.coinTwo"></span></h5>
+				<div  class="row align-items-end">
+					<div class="col-lg-4 py-3">
+						<div class="dropdown text-gray9">
+						  <a class="btn btn-outline-grayd3 dropdown-toggle text-primary" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:class="{'border-danger':alertKeyChecked_error}">
+						  	<span class="text-secondary">{{alertKeyChecked | alertKey_f}}</span>
+						  </a>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+						    <a v-for="item in alertKey" v-if="currencyChecked && currencyChecked.supportAlertKey.match(item) != null" class="dropdown-item" href="javascript:;" v-on:click="alertKeyChecked = item">{{item | alertKey_f}}</a>
+						  </div>
+						</div>
+					</div>
+					<div class="col-lg-4 py-3">
+						<div class="dropdown text-gray9">
+						  <a class="btn btn-outline-grayd3 dropdown-toggle text-primary" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	<span class="text-secondary">{{alertConditionChecked | alertCondition_f}}</span>
+						  </a>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
+						    <a v-for="item in alertCondition" class="dropdown-item" href="javascript:;" v-on:click="alertConditionChecked = item" >{{item | alertCondition_f}}</a>
+						  </div>
+						</div>
+					</div>
+					<div class="col-lg-4 py-3">
+						<div class="input-group">
+					        <div class="input-group-prepend">
+					          <div class="input-group-text bg-grayf6">USD</div>
+					        </div>
+					        <input type="text" class="form-control py-2" v-model="alertValue" v-on:keyup="alertValue=alertValue.replace(/[^0-9.]/g,'')">
+					    </div>
+					</div>
+				</div>
+				<div>
+					<p class="small mt-5">Market reference</p>
+					<h5 class="font-weight-bold mb-5">Current {{alertKeyChecked | alertKey_f}} =  <span class="text-danger" v-text="currPrice"></span></h5>
+				</div>
+				<div id="highcharts1" class="mb-5" style="max-width: 760px;"></div>
+				<h5>How should we notify you of this alert?</h5>
+				<div class="row mb-4">
+					<div class="col-lg-2 col-3">
+						<label class="cursor-pointer"><input type="checkbox" v-model="alertMethod" value="EMAIL" class="mr-2">Email</label>
+					</div>
+					<div class="col-lg-2 col-3">
+						<label class="cursor-pointer"><input type="checkbox" v-model="alertMethod" value="SMS" class="mr-2">Message</label>
+					</div>
+				</div>
+				<h5 class="font-weight-bold">Maximum notifications for this alert:</h5>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="dropdown text-gray9">
+						  <a class="btn btn-outline-grayd3 dropdown-toggle text-primary" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	<span class="text-secondary" v-text="alertTimes"></span>
+						  </a>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+						    <a v-for="item in 10" class="dropdown-item" href="javascript:;" v-on:click="alertTimes = item" v-text="item"></a>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<a href="javascript:;" v-on:click="setAlert()" class="btn btn-primary text-white mt-4">Save</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="//code.highcharts.com/highcharts.js"></script>
+<%= require('html-loader!../common/footer.html') %>
+</body>
+</html>

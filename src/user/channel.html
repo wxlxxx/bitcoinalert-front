@@ -1,0 +1,105 @@
+<%= require('html-loader!../common/head.html') %>
+<div id="vueApp_channel" v-cloak>
+	<%= require('html-loader!../common/header.html') %>
+
+	<div class="py-5 text-white" style="background: url(../images/bg2.jpg) center no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-3">
+					<h1 class="h2">Channels</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="py-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 pr-4 d-none d-lg-block">
+					<%= require('html-loader!../common/menu.html') %>
+				</div>
+				<div class="col-lg-8 alert-detail">
+					<div v-if="channel_email" class="box-shadow py-4 pb-5 px-4 mb-5">
+						<h4 class="font-weight-bold mb-3">{{channel_email.method}}</h4>
+						<h5 class="mb-3">
+							{{channel_email.value}}
+							<span v-if="channel_email.status" class="badge badge-success">Verified</span>
+							<a href="" v-else class="text-primary">Verify</a>
+						</h5>
+						<a href="javascript:$('#Modal').modal();" class="btn btn-primary text-white"><span class="h6 mb-0">Modify</span></a>
+					</div>
+					<div v-if="channel_sms" class="box-shadow py-4 pb-5 px-4 mb-5">
+						<h4 class="font-weight-bold mb-3">{{channel_sms.method}}</h4>
+						<h5 class="mb-3">
+							{{channel_sms.value}}
+							<span v-if="channel_email.status" class="badge badge-success">Verified</span>
+						</h5>
+						<a href="javascript:;" v-on:click="channel_sms = null" class="btn btn-primary text-white"><span class="h6 mb-0">Modify</span></a>
+					</div>
+					<div v-else class="box-shadow py-4 pb-5 px-4 mb-5">
+						<h4 class="font-weight-bold mb-3">SMS</h4>
+						<form action="https://www.bitcoinalert.io/api/work/coin/payment/pay">
+							<input type="hidden" value="4" name="skuId">
+							<h5 class="mb-3">You must purchase <a href="/user/account.html?step=2" class="text-primary">SMS credits</a> as well to get alerts.</h5>
+						</form>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="border h-100 px-2 py-1 no-hover">
+									<select class="border-0 bg-white" style="width: 100px;" v-model="moNo">
+										<option v-for="item in country_list" v-bind:value="item.moNo">{{item.name}}</option>
+									</select>
+									<span>{{moNo}}</span>
+									<input type="text" v-model="update_value" class="border-0">
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<a href="javascript:;" v-on:click="count_down == 60 ? update_channel('SMS') : null" class="btn btn-sm text-white rounded-0" v-bind:class="count_down == 60 ? 'btn-primary' : 'btn-gray9 disabled'">
+									{{send_sms_code}}
+								</a>
+							</div>
+						</div>
+						<div v-if="need_sms_valid" class="d-flex mt-3">
+							<input type="text" v-model="sms_valid_code" class="border mr-2 px-2" name="">
+							<a href="javascript:;" v-on:click="smsValid()" class="btn btn-sm rounded-0 text-white btn-primary">Verify</a>
+						</div>
+					</div>
+					<!-- <div class="box-shadow py-4 pb-5 px-4">
+						<h4 class="font-weight-bold mb-3">Pushover</h4>
+						<h5 class="mb-3"><a href="" class="text-primary">What is Pushover?</a></h5>
+						<div class="row">
+							<div class="col-lg-5">
+								<input type="text" class="h-100 w-100 px-2" placeholder="Enter Pushover Key">
+							</div>
+							<div class="col-lg-3">
+								<a href="javascript:;" class="btn btn-primary btn-sm text-white rounded-0">Save</a>
+							</div>
+						</div>
+					</div> -->
+
+					<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-body px-5 pb-5">
+									<h4 class="font-weight-bold mb-4">Email</h4>
+									<div class="row no-gutters justify-content-between">
+										<div class="col-lg-7">
+											<input type="email" class="h-100 w-100 px-2" v-model="update_value" placeholder="Enter email">
+											<p v-if="fail_text" class="mb-0 small-xs text-danger">{{fail_text}}</p>
+										</div>
+										<div class="col-lg-5 text-right">
+											<a href="javascript:;" v-on:click="update_channel('EMAIL')" class="btn btn-primary text-white rounded-0">Save</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<%= require('html-loader!../common/footer.html') %>
+</body>
+</html>
