@@ -18,7 +18,7 @@ const generateConfig = {
 		path: path.resolve(__dirname, '../dist'),
 		filename: "assets/[name].bundle.js",
 		chunkFilename:'assets/[name].chunk.js',
-		publicPath: public_Path
+		publicPath: '/'
 	},
 	devServer: {
 	    contentBase: path.resolve(__dirname, '../src'),
@@ -45,15 +45,6 @@ htmlFiles.forEach(function(file) {
 	    productionConfig.plugins.push(new HtmlWebpackPlugin(conf))
 	}
 })
-
-productionConfig.plugins.push(
-	new CopyWebpackPlugin([
-		{
-			from: path.resolve(__dirname, '../src/static'),
-			to: path.resolve(__dirname, '../dist/static')
-		}
-	])
-)
 
 
 module.exports = env => {
