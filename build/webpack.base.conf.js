@@ -6,7 +6,6 @@ const glob = require('glob-all')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const developmentConfig = require('./webpack.dev.conf.js')
 const productionConfig = require('./webpack.prod.conf.js')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
 const generateConfig = {

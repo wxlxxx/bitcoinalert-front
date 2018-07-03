@@ -3,6 +3,7 @@ const Webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const PurifyCSS = require('purifycss-webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
 	module: {
@@ -76,13 +77,17 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new CopyWebpackPlugin([
+			{
+				from: path.resolve(__dirname, '../src/images'),
+				to: path.resolve(__dirname, '../dist/images')
+			},
+			{
+				from: path.resolve(__dirname, '../src/favicon.ico'),
+				to: path.resolve(__dirname, '../dist/favicon.ico')
+			}
+		]),
 		new ExtractTextPlugin("assets/[name].bundle.css"),
-		// new PurifyCSS({
-		// 	paths: glob.sync([
-		// 		path.join(__dirname, '../src/'+currWorkFolder+'/*.html')
-		// 	]),
-		// 	minimize: true
-		// }),
 		new Webpack.optimize.UglifyJsPlugin(),
 		new Webpack.optimize.CommonsChunkPlugin({
 			async: 'async-common',
