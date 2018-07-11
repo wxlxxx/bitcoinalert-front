@@ -1,4 +1,7 @@
 <%= require('html-loader!../common/head.html') %>
+	<title>Upgrade Your Plan to Enjoy More Cool Features | Bitcoin Alert</title>
+</head>
+<body>
 <div id="vueApp_buy" v-cloak>
 	<%= require('html-loader!../common/header.html') %>
 
@@ -28,7 +31,7 @@
 								<p>/ month</p>
 								<p>{{item.productCount}}-Month License {{'$'+item.nowPrice}}</p>
 								<form class="mb-4" v-if="item" action="https://www.bitcoinalert.io/api/work/coin/payment/pay">
-									<input type="hidden" v-model="item.id">
+									<input type="hidden" name="skuId" v-model="item.id">
 									<button type="submit" class="btn btn-lg w-100 btn-danger text-white">Buy Now</button>
 								</form>
 								<ul class="list text-left small px-lg-4 text-nowrap">
